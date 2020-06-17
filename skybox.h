@@ -1,6 +1,8 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
+#include "model.h"
+
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
@@ -18,6 +20,7 @@ public:
     Skybox();
     ~Skybox();
 
+    void getCubeMap(Model * gl_point);
     void render(const QMatrix4x4 &projection, QMatrix4x4 view);
 };
 

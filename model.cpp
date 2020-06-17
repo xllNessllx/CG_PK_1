@@ -117,7 +117,7 @@ void Model::initGL(const QString &filename,QString shader_name_vert,QString shad
 
 }
 
-void Model::drawElements(float fov,double v_far,double v_near,float aspectRatio,double scale,QMatrix4x4 rotation,QMatrix4x4 view,QVector3D light_pos,QVector3D amb_mat,QVector3D diff_mat, QVector3D spec_mat,float shine_mat) {
+void Model::drawElements(float fov,double v_far,double v_near,float aspectRatio,double scale,QMatrix4x4 rotation,QMatrix4x4 view,QVector3D light_pos,QVector3D amb_mat,QVector3D diff_mat, QVector3D spec_mat,float shine_mat,float shininess) {
 
     //Mein Code
     //Shader Program
@@ -197,7 +197,7 @@ void Model::drawElements(float fov,double v_far,double v_near,float aspectRatio,
     m_prog->setUniformValue(10,1.0f);
     m_prog->setUniformValue(11,1.0f);
     m_prog->setUniformValue(12,1.0f);
-    m_prog->setUniformValue(13,100.0f);
+    m_prog->setUniformValue(13,shininess);
 
     //Material
     m_prog->setUniformValue(14,amb_mat);

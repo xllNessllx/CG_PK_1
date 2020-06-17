@@ -1,4 +1,5 @@
 #include "myglwidget.h"
+#include "skybox.h"
 #include <QOpenGLWidget>
 #include <QKeyEvent>
 #include <QDebug>
@@ -57,6 +58,25 @@ void MyGLWidget::paintGL(){
     QVector4D light_temp3;
     QVector3D light3;
 
+    QMatrix4x4 lightRotation4;
+    QVector4D light_temp4;
+    QVector3D light4;
+
+    QMatrix4x4 lightRotation5;
+    QVector4D light_temp5;
+    QVector3D light5;
+
+
+    //Set amb,diff,spec
+
+    for(int i = 0; i < NUM_LS;i++){
+        ls[i].ka = ((float)v_rotA) / 180.f;
+        ls[i].kd = ((float)v_rotB) / 180.f;
+        ls[i].ks = ((float)v_rotC) / 180.f;
+    }
+
+
+
     if(v_animate == false){
     //QMatrix4x4 outer_ring_rotation;
     outer_ring_rotation.rotate(v_rotA,QVector3D(1.0,0.0,0.0));
@@ -82,19 +102,33 @@ void MyGLWidget::paintGL(){
     light1= QVector3D(light_temp1.x(),light_temp1.y(),light_temp1.z());
     ls[0].position = light1;
 
-    lightRotation2.rotate(v_angle,QVector3D(0.0,1.0,0.0));
-    lightRotation2.translate(QVector3D(0.0, 20.0, 0.0));
+    lightRotation2.rotate(v_angle,QVector3D(0.0,0.0,1.0));
+    lightRotation2.translate(QVector3D(20.0, 0.0, 0.0));
     light_temp2 =  QVector4D(1.0,1.0,1.0,1.0);
     light_temp2 = light_temp2 * lightRotation2;
     light2= QVector3D(light_temp2.x(),light_temp2.y(),light_temp2.z());
     ls[1].position = light2;
 
-    lightRotation3.rotate(v_angle,QVector3D(0.0,1.0,0.0));
-    lightRotation3.translate(QVector3D(0.0, 25.0, 0.0));
+    lightRotation3.rotate(v_angle,QVector3D(0.5,0.0,0.5));
+    lightRotation3.translate(QVector3D(15.0, 15.0, 0.4));
     light_temp3 =  QVector4D(1.0,1.0,1.0,1.0);
     light_temp3 = light_temp3 * lightRotation3;
     light3= QVector3D(light_temp3.x(),light_temp3.y(),light_temp3.z());
     ls[2].position = light3;
+
+    lightRotation4.rotate(v_angle,QVector3D(0.5,0.0,0.5));
+    lightRotation4.translate(QVector3D(5.0, 20.0, 0.0));
+    light_temp4 =  QVector4D(1.0,1.0,1.0,1.0);
+    light_temp4 = light_temp4 * lightRotation4;
+    light4= QVector3D(light_temp4.x(),light_temp4.y(),light_temp4.z());
+    ls[3].position = light4;
+
+    lightRotation5.rotate(v_angle,QVector3D(0.5,0.0,0.5));
+    lightRotation5.translate(QVector3D(0.0, 0.0, 0.0));
+    light_temp5 =  QVector4D(1.0,1.0,1.0,1.0);
+    light_temp5 = light_temp5 * lightRotation5;
+    light5= QVector3D(light_temp5.x(),light_temp5.y(),light_temp5.z());
+    ls[4].position = light5;
 
 
     } else {
@@ -112,24 +146,38 @@ void MyGLWidget::paintGL(){
 
     lightRotation1.rotate(timer_rotate,QVector3D(1.0,0.0,0.0));
     lightRotation1.translate(QVector3D(0.0, 20.0, 0.0));
-    QVector4D light_temp1 =  QVector4D(1.0,1.0,1.0,1.0);
+    light_temp1 =  QVector4D(1.0,1.0,1.0,1.0);
     light_temp1 = light_temp1 * lightRotation1;
-    QVector3D light1(light_temp1.x(),light_temp1.y(),light_temp1.z());
+    light1= QVector3D(light_temp1.x(),light_temp1.y(),light_temp1.z());
     ls[0].position = light1;
 
-    lightRotation2.rotate(timer_rotate,QVector3D(0.0,1.0,0.0));
-    lightRotation2.translate(QVector3D(0.0, 20.0, 0.0));
+    lightRotation2.rotate(timer_rotate,QVector3D(0.0,0.0,1.0));
+    lightRotation2.translate(QVector3D(20.0, 0.0, 0.0));
     light_temp2 =  QVector4D(1.0,1.0,1.0,1.0);
     light_temp2 = light_temp2 * lightRotation2;
     light2= QVector3D(light_temp2.x(),light_temp2.y(),light_temp2.z());
     ls[1].position = light2;
 
-    lightRotation3.rotate(timer_rotate,QVector3D(0.0,1.0,0.0));
-    lightRotation3.translate(QVector3D(0.0, 25.0, 0.0));
+    lightRotation3.rotate(timer_rotate/0.2,QVector3D(0.5,0.0,0.5));
+    lightRotation3.translate(QVector3D(15.0, 15.0, 0.4));
     light_temp3 =  QVector4D(1.0,1.0,1.0,1.0);
     light_temp3 = light_temp3 * lightRotation3;
     light3= QVector3D(light_temp3.x(),light_temp3.y(),light_temp3.z());
     ls[2].position = light3;
+
+    lightRotation4.rotate(timer_rotate/2,QVector3D(0.5,0.0,0.5));
+    lightRotation4.translate(QVector3D(5.0, 20.0, 0.0));
+    light_temp4 =  QVector4D(1.0,1.0,1.0,1.0);
+    light_temp4 = light_temp4 * lightRotation4;
+    light4= QVector3D(light_temp4.x(),light_temp4.y(),light_temp4.z());
+    ls[3].position = light4;
+
+    lightRotation5.rotate(timer_rotate,QVector3D(0.5,0.0,0.5));
+    lightRotation5.translate(QVector3D(0.0, 0.0, 0.0));
+    light_temp5 =  QVector4D(1.0,1.0,1.0,1.0);
+    light_temp5 = light_temp5 * lightRotation5;
+    light5= QVector3D(light_temp5.x(),light_temp5.y(),light_temp5.z());
+    ls[4].position = light5;
 
     //QMatrix4x4 kugel_animation;
     kugel_animation.rotate(timer_rotate, QVector3D(0,0,1));              //bewegt sich ringförmig
@@ -145,14 +193,15 @@ void MyGLWidget::paintGL(){
                0.0,0.0,1.0,0.0,
                0.0,0.0,0.0,1.0);
 
-
     QMatrix4x4 view;
     if(v_camera == false){
     view.lookAt(
-        QVector3D(0.0,0.0,10.0),  //eye
-        QVector3D(0.0,0.0,0.0),   //center
+        QVector3D(v_CameraPos.x(),v_CameraPos.y(),v_CameraPos.z() + 10.0),  //eye
+        QVector3D(v_CameraPos.x(),0.0,0.0),   //center
         QVector3D(0.0,1.0,0.0)    //upvector
     );
+    view.rotate(angleup,QVector3D(1.0,0.0,0.0));
+    view.rotate(angleside,QVector3D(0.0,1.0,0.0));
     } else {
         view = inner_ring_rotation;
     }
@@ -166,23 +215,41 @@ void MyGLWidget::paintGL(){
     skybox->render(projection,view);
 
     inner_mod->m_prog->bind();
+    skybox->getCubeMap(inner_mod);
     inner_mod->m_prog->setUniformValue(1,QVector4D(1.0,0.0,0.0,1.0));
-    inner_mod->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),1.75,inner_ring_rotation,view,light1,QVector3D(0.05,0.05,0.05),QVector3D(0.05,0.05,0.05),QVector3D(0.7,0.7,0.7),0.078125 * 128);
+    inner_mod->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),1.75,inner_ring_rotation,view,light1,QVector3D(0.05,0.05,0.05),QVector3D(0.05,0.05,0.05),QVector3D(0.7,0.7,0.7),0.078125,(((float)v_angle)*100.f)/360.f);
 
     middle_mod->m_prog->bind();
     middle_mod->m_prog->setUniformValue(1,QVector4D(0.0,1.0,0.0,1.0));
-    middle_mod->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),2.1,middle_ring_rotation,view,light1,QVector3D(0.19225,0.19225,0.19225),QVector3D(0.50754,0.50754,0.50754),QVector3D(0.508273,0.508273,0.508273),0.4 * 128);
+    middle_mod->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),2.1,middle_ring_rotation,view,light1,QVector3D(0.19225,0.19225,0.19225),QVector3D(0.50754,0.50754,0.50754),QVector3D(0.508273,0.508273,0.508273),0.4,(((float)v_angle)*100.f)/360.f);
 
     outer_mod->m_prog->bind();
     outer_mod->m_prog->setUniformValue(1,QVector4D(0.0,0.0,1.0,1.0));
-    outer_mod->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),2.5,outer_ring_rotation,view,light1,QVector3D(0.0215,0.1745,0.0215),QVector3D(0.07568,0.633,0.07568),QVector3D(0.633,0.727811,0.633),0.6 * 128);
+    outer_mod->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),2.5,outer_ring_rotation,view,light1,QVector3D(0.0215,0.1745,0.0215),QVector3D(0.07568,0.633,0.07568),QVector3D(0.633,0.727811,0.633),0.6,(((float)v_angle)*100.f)/360.f);
 
     kugel->m_prog->bind();
     kugel->m_prog->setUniformValue(1,QVector4D(1.0,1.0,1.0,1.0));
-    kugel->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),0.2,kugel_animation,view,light1,QVector3D(0.0,0.0,0.0),QVector3D(0.5,0.0,0.0),QVector3D(0.7,0.6,0.6),0.25 * 128);
+    kugel->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),0.2,kugel_animation,view,light1,QVector3D(0.0,0.0,0.0),QVector3D(0.5,0.0,0.0),QVector3D(0.7,0.6,0.6),0.25,(((float)v_angle)*100.f)/360.f);
 
-    lightSource->m_prog->bind();
-    lightSource->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),0.2,lightRotation1,view,light1,QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),1);
+    lightSource1->m_prog->bind();
+    lightSource1->m_prog->setUniformValue(20,light1_color);
+    lightSource1->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),0.2,lightRotation1,view,light1,QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),1,(((float)v_angle)*100.f)/360.f);
+
+    lightSource2->m_prog->bind();
+    lightSource2->m_prog->setUniformValue(20,light2_color);
+    lightSource2->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),0.2,lightRotation2,view,light2,QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),1,(((float)v_angle)*100.f)/360.f);
+
+    lightSource3->m_prog->bind();
+    lightSource3->m_prog->setUniformValue(20,light3_color);
+    lightSource3->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),0.2,lightRotation3,view,light3,QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),1,(((float)v_angle)*100.f)/360.f);
+
+    lightSource4->m_prog->bind();
+    lightSource4->m_prog->setUniformValue(20,light4_color);
+    lightSource4->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),0.2,lightRotation4,view,light4,QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),1,(((float)v_angle)*100.f)/360.f);
+
+    lightSource5->m_prog->bind();
+    lightSource5->m_prog->setUniformValue(20,light5_color);
+    lightSource5->drawElements(v_fov,v_far,v_near,((float) this->width()) / ((float) this->height()),0.2,lightRotation5,view,light5,QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),QVector3D(1.0,1.0,1.0),1,(((float)v_angle)*100.f)/360.f);
     /*QMatrix4x4 rotMat(
                 cos(v_rotC),0,sin(v_rotC),0,
                 0,1,0,0,
@@ -237,7 +304,7 @@ void MyGLWidget::initializeGL(){
     glEnable(GL_DEPTH_TEST);
 
     ls[0].position = QVector3D(0.0,0.0,0.0);
-    ls[0].color = QVector3D(1.0,1.0,1.0);
+    ls[0].color = light1_color;
     ls[0].ka = 1.0;
     ls[0].kd = 1.0;
     ls[0].ks = 1.0;
@@ -246,7 +313,7 @@ void MyGLWidget::initializeGL(){
     ls[0].quadratic = 0.07;
 
     ls[1].position = QVector3D(0.0,0.0,0.0);
-    ls[1].color = QVector3D(1.0,1.0,1.0);
+    ls[1].color = light2_color;
     ls[1].ka = 1.0;
     ls[1].kd = 1.0;
     ls[1].ks = 1.0;
@@ -255,13 +322,31 @@ void MyGLWidget::initializeGL(){
     ls[1].quadratic = 0.07;
 
     ls[2].position = QVector3D(0.0,0.0,0.0);
-    ls[2].color = QVector3D(1.0,1.0,1.0);
+    ls[2].color = light3_color;
     ls[2].ka = 1.0;
     ls[2].kd = 1.0;
     ls[2].ks = 1.0;
     ls[2].constant = 1.0;
     ls[2].linear = 0.14;
     ls[2].quadratic = 0.07;
+
+    ls[3].position = QVector3D(0.0,0.0,0.0);
+    ls[3].color = light4_color;
+    ls[3].ka = 1.0;
+    ls[3].kd = 1.0;
+    ls[3].ks = 1.0;
+    ls[3].constant = 1.0;
+    ls[3].linear = 0.14;
+    ls[3].quadratic = 0.07;
+
+    ls[4].position = QVector3D(0.0,0.0,0.0);
+    ls[4].color = light5_color;
+    ls[4].ka = 1.0;
+    ls[4].kd = 1.0;
+    ls[4].ks = 1.0;
+    ls[4].constant = 1.0;
+    ls[4].linear = 0.14;
+    ls[4].quadratic = 0.07;
 
     inner_mod = new Model();
     inner_mod->initGL(":/gimbal.obj",":/pk3.vert",":/pk3.frag");
@@ -275,15 +360,27 @@ void MyGLWidget::initializeGL(){
     kugel = new Model();
     kugel->initGL(":/sphere.obj",":/pk3.vert",":/pk3.frag");
 
-    lightSource = new Model();
-    lightSource->initGL(":/sphere.obj",":/light.vert",":/light.frag");
+    lightSource1 = new Model();
+    lightSource1->initGL(":/sphere.obj",":/light.vert",":/light.frag");
+
+    lightSource2 = new Model();
+    lightSource2->initGL(":/sphere.obj",":/light.vert",":/light.frag");
+
+    lightSource3 = new Model();
+    lightSource3->initGL(":/sphere.obj",":/light.vert",":/light.frag");
+
+    lightSource4 = new Model();
+    lightSource4->initGL(":/sphere.obj",":/light.vert",":/light.frag");
+
+    lightSource5 = new Model();
+    lightSource5->initGL(":/sphere.obj",":/light.vert",":/light.frag");
 
     skybox = new Skybox();
 
 
     glGenBuffers(1, &uboLights);
     glBindBuffer(GL_UNIFORM_BUFFER, uboLights);
-    glBufferData(GL_UNIFORM_BUFFER, 1 * sizeof (LightSource), nullptr, GL_STATIC_DRAW ); // Set Buer size, 64 Byte for each LS
+    glBufferData(GL_UNIFORM_BUFFER, 5 * sizeof (LightSource), nullptr, GL_STATIC_DRAW ); // Set Buer size, 64 Byte for each LS
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, uboLights);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
@@ -296,6 +393,10 @@ void MyGLWidget::initializeGL(){
     v_far = 99.9;
     v_angle = 0;
 
+    angleup = 0;
+    angleside = 0;
+
+    v_CameraPos = QVector3D(0.0,0.0,0.0);
     /*struct Vertex {
         GLfloat position[2];
         GLfloat color[3];
@@ -497,11 +598,11 @@ void MyGLWidget::keyPressEvent(QKeyEvent *event) {
         qInfo() << "test";
     }
     else if (event->key() == Qt::Key_W) {
-        v_CameraPos.setZ(v_CameraPos.z() + 0.2);
+        v_CameraPos.setZ(v_CameraPos.z() - 0.2);
         qInfo() << "Vector: " << v_CameraPos.x() << "," << v_CameraPos.y() << "," << v_CameraPos.z();
     }
     else if (event->key() == Qt::Key_S) {
-        v_CameraPos.setZ(v_CameraPos.z() - 0.2);
+        v_CameraPos.setZ(v_CameraPos.z() + 0.2);
         qInfo() << "Vector: " << v_CameraPos.x() << "," << v_CameraPos.y() << "," << v_CameraPos.z();
     }
     else if (event->key() == Qt::Key_A) {
@@ -510,6 +611,22 @@ void MyGLWidget::keyPressEvent(QKeyEvent *event) {
     }
     else if (event->key() == Qt::Key_D) {
         v_CameraPos.setX(v_CameraPos.x() + 0.2);
+        qInfo() << "Vector: " << v_CameraPos.x() << "," << v_CameraPos.y() << "," << v_CameraPos.z();
+    }
+    else if (event->key() == Qt::Key_Up) {
+        angleup -= 2;
+        qInfo() << "Vector: " << v_CameraPos.x() << "," << v_CameraPos.y() << "," << v_CameraPos.z();
+    }
+    else if (event->key() == Qt::Key_Down) {
+        angleup += 2;
+        qInfo() << "Vector: " << v_CameraPos.x() << "," << v_CameraPos.y() << "," << v_CameraPos.z();
+    }
+    else if (event->key() == Qt::Key_Left) {
+        angleside -= 2;
+        qInfo() << "Vector: " << v_CameraPos.x() << "," << v_CameraPos.y() << "," << v_CameraPos.z();
+    }
+    else if (event->key() == Qt::Key_Right) {
+        angleside += 2;
         qInfo() << "Vector: " << v_CameraPos.x() << "," << v_CameraPos.y() << "," << v_CameraPos.z();
     }
     else {

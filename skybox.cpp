@@ -145,3 +145,8 @@ void Skybox::render(const QMatrix4x4 &projection, QMatrix4x4 view){
 
 
 }
+
+void Skybox::getCubeMap(Model * gl_point){
+    glBindTexture(GL_TEXTURE_CUBE_MAP, this->m_cubeTex);
+    gl_point->m_prog->setUniformValue("cubeMap",18);
+}

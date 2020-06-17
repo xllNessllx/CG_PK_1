@@ -1,7 +1,7 @@
 #ifndef MYGLWIDGET_H
 #define MYGLWIDGET_H
 
-#define NUM_LS 3
+#define NUM_LS 5
 
 #include <QWidget>
 #include <QOpenGLWidget>
@@ -38,7 +38,21 @@ public:
     Model *middle_mod;
     Model *outer_mod;
     Model *kugel;
-    Model *lightSource;
+    Model *lightSource1;
+    Model *lightSource2;
+    Model *lightSource3;
+    Model *lightSource4;
+    Model *lightSource5;
+
+    float angleup;
+    float angleside;
+
+    QVector3D light1_color = QVector3D(1.0,1.0,1.0);
+    QVector3D light2_color = QVector3D(1.0,0.0,0.0);
+    QVector3D light3_color = QVector3D(0.0,1.0,0.0);
+    QVector3D light4_color = QVector3D(0.0,0.0,1.0);
+    QVector3D light5_color = QVector3D(0.0,1.0,1.0);
+
     double timer_rotate = 0;
     struct LightSource {
         alignas(16) QVector3D position;
