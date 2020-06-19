@@ -301,17 +301,11 @@ void MyGLWidget::initializeGL(){
     glGenFramebuffers(1, &m_fbo);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
 
-    glClearColor(0.3, 0.3, 0.3, 1.0);
-    glEnable(GL_BLEND);
-    glEnable(GL_CULL_FACE);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
-
     glGenTextures(1, &m_tex_fbo);
     glBindTexture(GL_TEXTURE_2D, m_tex_fbo);
     // ll with pixel data
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,
-                 0, 0,
+                 100, 100,
                  0, GL_BGRA, GL_UNSIGNED_BYTE, (void*) 0);
     // set ltering (interpolation) options
     // without these commands, _sampling will return black_
@@ -320,6 +314,18 @@ void MyGLWidget::initializeGL(){
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
     glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_tex_fbo, 0);
+
+    glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT16, 100, 100);
+
+    glClearColor(0.3, 0.3, 0.3, 1.0);
+    glEnable(GL_BLEND);
+    glEnable(GL_CULL_FACE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
+
+    qInfo() << glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER);
+
+    Q_ASSERT(glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 
     ls[0].position = QVector3D(0.0,0.0,0.0);
     ls[0].color = light1_color;
