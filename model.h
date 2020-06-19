@@ -6,12 +6,12 @@
 #include <QString>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLWidget>
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_3_Core>
 
 //#include "common.h"
 
 //class Model : OpenGLFunctions
-class Model : QOpenGLFunctions_3_3_Core
+class Model : QOpenGLFunctions_4_3_Core
 {
 public:
     Model();

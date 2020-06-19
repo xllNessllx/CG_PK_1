@@ -60,6 +60,7 @@ DISTFILES += \
     back.jpg \
     bottom.jpg \
     front.jpg \
+    gimbal-smooth.obj \
     gimbal.obj \
     gimbal_wood.jpg \
     left.jpg \

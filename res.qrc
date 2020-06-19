@@ -19,5 +19,6 @@
         <file>skybox.vert</file>
         <file>light.vert</file>
         <file>light.frag</file>
+        <file>gimbal-smooth.obj</file>
     </qresource>
 </RCC>

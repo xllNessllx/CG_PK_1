@@ -24,6 +24,7 @@ makeCurrent();
 inner_mod->finiGL();
 middle_mod->finiGL();
 outer_mod->finiGL();
+glDeleteFramebuffers(1, &m_fbo);
 
 
 doneCurrent();
@@ -297,11 +298,28 @@ void MyGLWidget::initializeGL(){
     bool success = initializeOpenGLFunctions();
     Q_ASSERT(success); Q_UNUSED(success);
 
+    glGenFramebuffers(1, &m_fbo);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
+
     glClearColor(0.3, 0.3, 0.3, 1.0);
     glEnable(GL_BLEND);
     glEnable(GL_CULL_FACE);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
+
+    glGenTextures(1, &m_tex_fbo);
+    glBindTexture(GL_TEXTURE_2D, m_tex_fbo);
+    // ll with pixel data
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,
+                 0, 0,
+                 0, GL_BGRA, GL_UNSIGNED_BYTE, (void*) 0);
+    // set ltering (interpolation) options
+    // without these commands, _sampling will return black_
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
+    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_tex_fbo, 0);
 
     ls[0].position = QVector3D(0.0,0.0,0.0);
     ls[0].color = light1_color;
@@ -349,13 +367,13 @@ void MyGLWidget::initializeGL(){
     ls[4].quadratic = 0.07;
 
     inner_mod = new Model();
-    inner_mod->initGL(":/gimbal.obj",":/pk3.vert",":/pk3.frag");
+    inner_mod->initGL(":/gimbal-smooth.obj",":/pk3.vert",":/pk3.frag");
 
     middle_mod = new Model();
-    middle_mod->initGL(":/gimbal.obj",":/pk3.vert",":/pk3.frag");
+    middle_mod->initGL(":/gimbal-smooth.obj",":/pk3.vert",":/pk3.frag");
 
     outer_mod = new Model();
-    outer_mod->initGL(":/gimbal.obj",":/pk3.vert",":/pk3.frag");
+    outer_mod->initGL(":/gimbal-smooth.obj",":/pk3.vert",":/pk3.frag");
 
     kugel = new Model();
     kugel->initGL(":/sphere.obj",":/pk3.vert",":/pk3.frag");

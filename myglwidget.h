@@ -8,7 +8,7 @@
 #include <QObject>
 #include <QKeyEvent>
 #include <QVector3D>
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_3_Core>
 #include <QDebug>
 #include <QOpenGLShaderProgram>
 #include <QElapsedTimer>
@@ -16,7 +16,7 @@
 #include "model.h"
 #include "skybox.h"
 
-class MyGLWidget : public QOpenGLWidget, private QOpenGLFunctions_3_3_Core
+class MyGLWidget : public QOpenGLWidget, private QOpenGLFunctions_4_3_Core
 {
 
     Q_OBJECT
@@ -70,8 +70,10 @@ public:
 
     Skybox *skybox;
 
+    GLuint m_fbo;
     GLuint m_ibo;
     GLuint m_tex;
+    GLuint m_tex_fbo;
     GLuint m_vbo;
     GLuint m_vao;
     GLuint uboLights;
